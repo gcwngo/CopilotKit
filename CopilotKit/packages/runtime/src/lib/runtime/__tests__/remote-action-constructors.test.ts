@@ -38,10 +38,16 @@ const agentStates = [{ agentName: "agent1", state: "{}", configurable: "{}" }];
 
 // Dummy agent used in constructLGCRemoteAction
 const dummyAgent = { name: "agent1", description: "test agent" };
+const onBeforeRequest = jest.fn(() => ({
+  headers: {
+    Authorization: "Bearer plain-text-api-key", // Use plain text API key for testing
+  },
+}));
+
 const endpoint = {
   agents: [dummyAgent],
   deploymentUrl: "http://dummy.deployment",
-  langsmithApiKey: "dummykey",
+  langsmithApiKey: "plain-text-api-key", // Use plain text API key for testing
 };
 
 // Clear mocks before each test
@@ -123,7 +129,6 @@ describe("remote action constructors", () => {
       ],
     };
     const url = "http://dummy.api";
-    const onBeforeRequest = jest.fn(() => ({ headers: { Authorization: "Bearer token" } }));
 
     it("should create remote action handler that calls fetch and returns the result", async () => {
       // Arrange: mock fetch for action handler
@@ -154,7 +159,7 @@ describe("remote action constructors", () => {
           method: "POST",
           headers: expect.objectContaining({
             "Content-Type": "application/json",
-            Authorization: "Bearer token",
+            Authorization: "Bearer plain-text-api-key",
           }),
           body: expect.any(String),
         }),
@@ -230,11 +235,10 @@ describe("remote action constructors", () => {
 
   describe("createHeaders", () => {
     it("should merge headers from onBeforeRequest", () => {
-      const onBeforeRequest = jest.fn(() => ({ headers: { "X-Test": "123" } }));
       const headers = createHeaders(onBeforeRequest, graphqlContext);
       expect(headers).toEqual({
         "Content-Type": "application/json",
-        "X-Test": "123",
+        Authorization: "Bearer plain-text-api-key",
       });
     });
 

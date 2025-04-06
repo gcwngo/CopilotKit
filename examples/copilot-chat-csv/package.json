@@ -1,0 +1,16 @@
+csv-chat-assistant/
+├── client/                  # Frontend code
+│   ├── public/              # Static files
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   ├── App.js           # Main application component
+│   │   └── index.js         # Entry point
+├── server/                  # Backend code
+│   ├── controllers/         # Controllers for handling requests
+│   ├── models/              # Data models
+│   ├── routes/              # API routes
+│   ├── utils/               # Utility functions (e.g., CSV parsing)
+│   ├── app.js               # Express app setup
+│   └── server.js            # Server entry point
+├── package.json             # Project metadata and dependencies
+└── README.md                # Project documentation
